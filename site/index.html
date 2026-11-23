@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Project Planner</title>
+  <meta name="description" content="Team project planner: next task via a binary heap, critical path method, Gantt chart. The real Python core runs in your browser with Pyodide.">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Smart Project Planner</h1>
+    <p class="lead">
+      Picks the next task with a binary heap, orders tasks with a topological
+      sort and finds the critical path. This page runs the
+      <a href="https://github.com/YeganehNourii/2017-smart-project-planner">real Python code</a>
+      in your browser with Pyodide; nothing is sent to a server.
+    </p>
+    <div id="status" class="status" role="status">Loading Python (Pyodide)…</div>
+  </header>
+
+  <section class="toolbar" aria-label="Project">
+    <label>Project <input id="p-name" type="text" value="My project"></label>
+    <label>Start <input id="p-start" type="date"></label>
+    <button id="btn-sample" type="button" class="primary" disabled>Load sample project</button>
+    <button id="btn-new" type="button" disabled>New empty project</button>
+    <button id="btn-export" type="button" disabled>Export JSON</button>
+    <label class="file-btn">Import JSON<input id="file-import" type="file" accept=".json,application/json" disabled></label>
+  </section>
+
+  <div id="error" class="msg error" hidden></div>
+  <div id="warnings" class="msg warn" hidden></div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Next up</h2>
+      <ol id="next" class="next"></ol>
+    </section>
+    <section class="card">
+      <h2>Critical path <span id="duration" class="muted"></span></h2>
+      <div id="critical" class="chain"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Timeline</h2>
+    <div id="gantt" class="gantt"></div>
+  </section>
+
+  <section class="card">
+    <h2>Tasks</h2>
+    <div class="table-wrap">
+      <table id="tasks">
+        <thead><tr>
+          <th title="Done">✓</th><th>ID</th><th>Task</th><th>Owner</th><th class="num">Days</th>
+          <th>Depends on</th><th>Start</th><th>Finish</th><th class="num">Slack</th><th>Deadline</th><th></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <form id="add" class="add" autocomplete="off">
+      <h3>Add a task</h3>
+      <label>ID <input name="id" required pattern="[A-Za-z0-9][A-Za-z0-9_.\-]{0,39}" placeholder="slides"></label>
+      <label class="wide">Name <input name="name" required placeholder="Prepare demo slides"></label>
+      <label>Days <input name="duration" type="number" min="0" max="3650" value="2" required></label>
+      <label>Owner <input name="owner" placeholder="Sara"></label>
+      <label>Priority
+        <select name="priority">
+          <option value="1">1 highest</option><option value="2">2</option>
+          <option value="3" selected>3</option><option value="4">4</option><option value="5">5 lowest</option>
+        </select>
+      </label>
+      <label>Deadline <input name="deadline" type="date"></label>
+      <label class="wide">Depends on <input name="depends_on" list="task-ids" placeholder="front, api"></label>
+      <datalist id="task-ids"></datalist>
+      <button type="submit" class="primary" disabled>Add task</button>
+    </form>
+  </section>
+
+  <footer>
+    Origin: BSc courses Data Structures, Systems Analysis &amp; Design and IT Project
+    Management (2017-18), rebuilt in 2026 · MIT License
+  </footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

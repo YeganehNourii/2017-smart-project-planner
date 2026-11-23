@@ -1,0 +1,17 @@
+{
+  "name": "Campus study-room app",
+  "start": "2026-03-02",
+  "tasks": [
+    {"id": "req",   "name": "Gather requirements",        "duration": 3, "owner": "Yeganeh", "priority": 1, "done": true},
+    {"id": "uml",   "name": "UML use-case & class diagrams", "duration": 2, "owner": "Yeganeh", "priority": 2, "depends_on": ["req"]},
+    {"id": "mock",  "name": "UI mockups",                 "duration": 3, "owner": "Sara",    "priority": 3, "depends_on": ["req"]},
+    {"id": "db",    "name": "Database schema",            "duration": 2, "owner": "Marco",   "priority": 2, "depends_on": ["uml"]},
+    {"id": "auth",  "name": "Login with university SSO",  "duration": 3, "owner": "Marco",   "priority": 3, "depends_on": ["db"]},
+    {"id": "api",   "name": "Booking API",                "duration": 6, "owner": "Marco",   "priority": 1, "depends_on": ["db"], "deadline": "2026-03-16"},
+    {"id": "front", "name": "Frontend screens",           "duration": 5, "owner": "Sara",    "priority": 2, "depends_on": ["mock"]},
+    {"id": "integ", "name": "Integrate frontend & API",   "duration": 3, "owner": "Sara",    "priority": 2, "depends_on": ["api", "front", "auth"]},
+    {"id": "docs",  "name": "User guide",                 "duration": 2, "owner": "Yeganeh", "priority": 4, "depends_on": ["front"]},
+    {"id": "test",  "name": "Usability tests",            "duration": 3, "owner": "Yeganeh", "priority": 2, "depends_on": ["integ"]},
+    {"id": "demo",  "name": "Final demo",                 "duration": 0, "owner": "Team",    "priority": 1, "depends_on": ["test", "docs"], "deadline": "2026-03-27"}
+  ]
+}
